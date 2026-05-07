@@ -1,0 +1,1128 @@
+Você é um desenvolvedor full-stack sênior especialista em sistemas web de PDV, gestão de estoque, dashboards administrativos, sistemas SaaS, banco de dados PostgreSQL, aplicações responsivas e integração com câmera do celular para leitura de código de barras.
+
+Quero que você crie um sistema web completo chamado inicialmente de “Adega Smart POS”, voltado para adegas modernas no Brasil, especialmente adegas de São Paulo que vendem bebidas, combos, copões preparados, gin, whisky, vodka, Chanceler, energéticos, gelo, refrigerantes, cervejas, destilados, tabacaria se necessário e produtos similares.
+
+O objetivo é criar um MVP profissional, funcional, bonito, responsivo e pronto para apresentação a clientes reais. O sistema precisa ser web, não instalável. Ele deve funcionar bem no computador do caixa e também no celular. O grande diferencial do sistema será substituir o leitor de código de barras físico, a pistola laser, pela câmera do celular ou pela câmera do dispositivo usando leitura de código de barras diretamente no navegador.
+
+STACK OBRIGATÓRIA
+
+Use:
+
+- Front-end: React, Vite ou Next.js, preferencialmente uma estrutura simples e rápida para deploy.
+- Estilização: TailwindCSS.
+- Banco de dados: PostgreSQL usando Neon.
+- Deploy: Netlify.
+- ORM: Prisma, Drizzle ou integração SQL bem organizada. Escolha a opção mais estável para o projeto.
+- Autenticação: login com e-mail e senha, sessão segura e controle de permissões por perfil.
+- Scanner de código de barras: usar a câmera do navegador.
+- Leitura de código de barras: implementar primeiro com BarcodeDetector se disponível no navegador e fallback com biblioteca ZXing, QuaggaJS ou alternativa confiável para browser.
+- Gráficos: Recharts, Chart.js ou biblioteca similar.
+- Armazenamento de imagens: deixar preparado para Cloudinary futuramente. No MVP, imagem pode ser opcional e pode funcionar com URL externa ou campo vazio.
+
+IMPORTANTE SOBRE O SISTEMA
+
+O sistema será usado por adegas que precisam vender rápido no balcão, controlar estoque, cadastrar produtos com código de barras, vender produtos compostos e acompanhar o faturamento em tempo real.
+
+Não criar aplicativo instalável nativo. Criar uma aplicação web responsiva. Se possível, deixar preparado como PWA futuramente, mas isso não é prioridade agora.
+
+PERFIS DE USUÁRIO E PERMISSÕES
+
+Criar três tipos principais de usuários:
+
+1. ADMINISTRADOR / DONO
+
+O administrador é o dono da adega. Ele pode fazer tudo no sistema.
+
+Permissões do administrador:
+
+- acessar dashboard completo;
+- vender no caixa;
+- abrir e fechar caixa;
+- cadastrar produtos;
+- editar produtos;
+- excluir/inativar produtos;
+- cadastrar categorias;
+- cadastrar produtos compostos;
+- cadastrar receitas/modos de preparo;
+- ajustar estoque;
+- ver movimentações de estoque;
+- cadastrar usuários;
+- editar usuários;
+- visualizar relatórios;
+- cancelar vendas;
+- aplicar descontos;
+- ver lucro, margem, custo e faturamento;
+- acessar configurações gerais da loja.
+
+2. GERENTE / ESTOQUISTA
+
+Esse perfil cuida da parte de estoque e gerência operacional.
+
+Permissões:
+
+- cadastrar produtos;
+- editar produtos;
+- cadastrar categorias;
+- ajustar estoque;
+- registrar entrada de mercadoria;
+- registrar perda, quebra ou vencimento;
+- visualizar estoque baixo;
+- cadastrar produtos compostos;
+- cadastrar modo de preparo de produtos compostos;
+- visualizar relatórios operacionais;
+- consultar vendas, se necessário;
+- não pode excluir usuários;
+- não pode alterar configurações críticas da loja;
+- não pode ver informações extremamente sensíveis se houver configuração futura, mas no MVP pode ver relatórios básicos.
+
+3. ATENDENTE DE CAIXA
+
+Esse perfil é limitado à operação do balcão.
+
+Permissões:
+
+- acessar tela de PDV;
+- buscar produto por nome;
+- buscar produto por código de barras;
+- escanear produto pela câmera;
+- adicionar produto ao carrinho;
+- alterar quantidade;
+- finalizar venda;
+- selecionar forma de pagamento;
+- consultar modo de preparo de produtos compostos;
+- visualizar instruções de preparo do copão/combo;
+- não pode ver custo do produto;
+- não pode ver lucro;
+- não pode editar estoque;
+- não pode editar preço;
+- não pode excluir produto;
+- não pode acessar dashboard administrativo completo.
+
+IMPORTANTE: O atendente de caixa, ao selecionar um produto composto como “Copão de Gin Morango”, precisa conseguir ver rapidamente como esse produto é preparado, quais ingredientes/condimentos/adicionais são usados e qualquer observação operacional.
+
+FUNCIONALIDADES PRINCIPAIS DO MVP
+
+1. LOGIN
+
+Criar tela de login profissional, responsiva e bonita.
+
+Campos:
+
+- e-mail;
+- senha;
+- botão entrar;
+- mensagem de erro clara;
+- layout moderno.
+
+Após login, redirecionar conforme perfil:
+
+- Administrador: dashboard administrativo.
+- Gerente/Estoquista: painel de estoque/gerência.
+- Atendente: tela de caixa/PDV.
+
+2. DASHBOARD ADMINISTRATIVO
+
+Criar dashboard bonito, moderno, responsivo e profissional.
+
+Mostrar cards com:
+
+- faturamento do dia;
+- quantidade de vendas do dia;
+- ticket médio;
+- lucro estimado do dia;
+- produtos mais vendidos;
+- categorias mais vendidas;
+- formas de pagamento mais usadas;
+- estoque crítico;
+- vendas por horário;
+- comparativo simples com ontem ou com período anterior, se possível.
+
+Criar gráficos:
+
+- gráfico de barras para vendas por hora;
+- gráfico de pizza ou rosca para vendas por categoria;
+- gráfico de linha para evolução do faturamento;
+- ranking dos produtos mais vendidos.
+
+O dashboard deve parecer profissional e comercialmente apresentável.
+
+3. PDV / FRENTE DE CAIXA
+
+Criar uma tela de caixa rápida, limpa e objetiva.
+
+Elementos da tela:
+
+- campo de busca por nome do produto;
+- campo de busca por código de barras;
+- botão grande “Escanear com câmera”;
+- lista de produtos encontrados;
+- carrinho lateral ou inferior;
+- quantidade;
+- preço unitário;
+- subtotal;
+- desconto, se permitido;
+- total da venda;
+- seleção de forma de pagamento;
+- botão finalizar venda;
+- botão limpar carrinho;
+- botão cancelar venda;
+- histórico rápido das últimas vendas.
+
+Formas de pagamento:
+
+- dinheiro;
+- Pix;
+- cartão de débito;
+- cartão de crédito;
+- múltiplas formas de pagamento, se possível;
+- outros.
+
+Ao finalizar venda:
+
+- registrar venda no banco;
+- registrar itens da venda;
+- registrar pagamento;
+- baixar estoque automaticamente;
+- atualizar dashboard;
+- mostrar confirmação de venda;
+- permitir gerar recibo simples na tela.
+
+4. SCANNER DE CÓDIGO DE BARRAS COM CELULAR
+
+Implementar leitura de código de barras usando câmera do navegador.
+
+Fluxo:
+
+- usuário clica em “Escanear com câmera”;
+- abrir modal ou tela com câmera ativa;
+- solicitar permissão da câmera;
+- detectar código de barras;
+- ao detectar, parar leitura ou confirmar leitura;
+- buscar produto no banco pelo código;
+- se encontrado, adicionar ao carrinho;
+- se não encontrado, mostrar mensagem:
+  “Produto não cadastrado. Deseja cadastrar agora?”
+
+Para produto não cadastrado:
+
+- se usuário for ADMIN ou GERENTE/ESTOQUISTA, permitir cadastro rápido;
+- se usuário for ATENDENTE, mostrar mensagem:
+  “Produto não cadastrado. Chame um administrador ou gerente para cadastrar.”
+
+Cadastro rápido deve ter:
+
+- nome do produto;
+- código de barras já preenchido;
+- categoria;
+- preço de venda;
+- preço de custo opcional;
+- estoque inicial;
+- estoque mínimo;
+- unidade;
+- botão salvar e adicionar ao carrinho.
+
+Fallback obrigatório:
+
+Se a câmera não funcionar ou o navegador não suportar leitura automática:
+
+- permitir digitar o código de barras manualmente;
+- permitir buscar pelo nome;
+- mostrar mensagem clara:
+  “Não foi possível acessar a câmera. Digite o código ou busque pelo nome.”
+
+5. CADASTRO DE PRODUTOS
+
+Criar tela de produtos com:
+
+- lista de produtos;
+- busca;
+- filtro por categoria;
+- filtro por estoque baixo;
+- filtro por ativo/inativo;
+- botão novo produto;
+- editar produto;
+- inativar produto;
+- excluir apenas se seguro, preferencialmente usar inativação;
+- visualizar histórico de estoque.
+
+Campos do produto:
+
+- nome;
+- código de barras;
+- categoria;
+- tipo de produto: simples ou composto;
+- preço de custo;
+- preço de venda;
+- margem calculada automaticamente;
+- estoque atual;
+- estoque mínimo;
+- unidade de medida;
+- imagem opcional;
+- ativo/inativo;
+- observações internas.
+
+Unidades possíveis:
+
+- unidade;
+- lata;
+- garrafa;
+- long neck;
+- fardo;
+- caixa;
+- pack;
+- ml;
+- litro;
+- kg;
+- pacote;
+- copo;
+- combo;
+- dose;
+- outro.
+
+6. PRODUTO COMPOSTO / COPÃO / COMBO
+
+Essa é uma das partes mais importantes do sistema.
+
+O sistema precisa permitir cadastrar produtos compostos, ou seja, produtos preparados a partir de outros itens do estoque.
+
+Exemplos:
+
+- Copão Gin Morango 700ml;
+- Copão Gin Açaí;
+- Copão Whisky com Energético;
+- Copão Chanceler;
+- Combo Chanceler + Energético + Gelo;
+- Kit Gin + 4 Energéticos + Gelo;
+- Combo Festa;
+- Copão Vodka com energético;
+- Copão personalizado.
+
+Ao cadastrar um produto composto, exigir ou permitir os seguintes campos:
+
+- nome do produto composto;
+- categoria;
+- preço de venda final;
+- custo calculado automaticamente com base nos ingredientes;
+- margem calculada automaticamente;
+- imagem opcional;
+- tempo médio de preparo;
+- modo de preparo;
+- observações para o atendente;
+- lista de ingredientes;
+- lista de condimentos/adicionais;
+- produto ativo/inativo.
+
+IMPORTANTE: Todo produto composto deve ter uma ficha técnica.
+
+A ficha técnica deve incluir:
+
+- ingredientes usados;
+- quantidade usada de cada ingrediente;
+- unidade de medida;
+- condimentos/adicionais;
+- modo de preparo;
+- observações de montagem;
+- sugestão de copo/tamanho;
+- alerta se algum ingrediente estiver com estoque baixo.
+
+Exemplo de ficha técnica:
+
+Produto: Copão Gin Morango 700ml
+
+Ingredientes:
+- Gin: 150 ml;
+- Energético: 1 unidade;
+- Gelo: 1 unidade/pacote pequeno;
+- Xarope de morango: 30 ml;
+- Morango ou condimento: quantidade configurável;
+- Copo 700ml: 1 unidade.
+
+Modo de preparo:
+1. Adicionar gelo no copo.
+2. Colocar 150 ml de gin.
+3. Adicionar xarope de morango.
+4. Completar com energético.
+5. Misturar levemente.
+6. Finalizar com condimento/decorativo.
+
+Observação:
+“Confirmar com o cliente se deseja mais doce ou mais forte.”
+
+Na tela do caixa, quando o atendente selecionar um produto composto, deve existir um botão ou área chamada:
+
+- “Ver preparo”
+- “Ficha técnica”
+- “Como preparar”
+
+Ao clicar, o atendente vê a receita e as instruções de preparo.
+
+Quando o produto composto for vendido:
+
+- o sistema deve registrar a venda do produto composto;
+- o sistema deve baixar automaticamente o estoque dos ingredientes vinculados;
+- se algum ingrediente estiver sem estoque suficiente, mostrar alerta;
+- permitir bloqueio da venda se configurado, ou apenas alerta no MVP.
+
+Exemplo:
+
+Se vender 1 Copão Gin Morango:
+
+Dar baixa em:
+
+- 150 ml de gin;
+- 1 energético;
+- 1 gelo;
+- 1 copo;
+- 30 ml de xarope;
+- demais ingredientes cadastrados.
+
+7. ESTOQUE INTELIGENTE
+
+Criar controle de estoque com movimentação automática e manual.
+
+Funcionalidades:
+
+- entrada de mercadoria;
+- saída automática por venda;
+- saída automática por produto composto;
+- ajuste manual;
+- perda/quebra;
+- vencimento;
+- devolução;
+- transferência futura, se houver várias lojas;
+- alerta de estoque mínimo;
+- histórico de movimentações.
+
+Cada movimentação de estoque deve registrar:
+
+- produto;
+- tipo de movimentação;
+- quantidade;
+- usuário responsável;
+- data e hora;
+- motivo;
+- referência da venda, se for baixa por venda.
+
+Tipos de movimentação:
+
+- entrada;
+- venda;
+- venda_produto_composto;
+- ajuste_manual;
+- perda;
+- quebra;
+- vencimento;
+- devolucao;
+- cancelamento_venda.
+
+Na tela de estoque, mostrar:
+
+- produto;
+- estoque atual;
+- estoque mínimo;
+- status: normal, baixo, zerado;
+- última movimentação;
+- botão ajustar;
+- botão entrada;
+- botão perda/quebra.
+
+8. CATEGORIAS
+
+Criar categorias personalizáveis.
+
+Categorias iniciais sugeridas:
+
+- Cervejas;
+- Destilados;
+- Gin;
+- Vodka;
+- Whisky;
+- Chanceler;
+- Energéticos;
+- Refrigerantes;
+- Gelo;
+- Copões;
+- Combos;
+- Tabacaria;
+- Condimentos;
+- Xaropes;
+- Copos e descartáveis;
+- Outros.
+
+O admin e gerente podem criar, editar e inativar categorias.
+
+9. CAIXA
+
+Criar controle de caixa.
+
+Funcionalidades:
+
+- abrir caixa;
+- informar valor inicial;
+- vender;
+- registrar sangria;
+- registrar suprimento;
+- fechar caixa;
+- resumo do caixa;
+- diferença entre esperado e informado;
+- vendas por forma de pagamento;
+- operador responsável.
+
+Tabela de sessões de caixa:
+
+- id;
+- usuário;
+- loja;
+- valor inicial;
+- valor final informado;
+- valor esperado;
+- status aberto/fechado;
+- data abertura;
+- data fechamento.
+
+10. VENDAS
+
+Toda venda deve registrar:
+
+- número/id da venda;
+- usuário que vendeu;
+- data/hora;
+- itens;
+- subtotal;
+- desconto;
+- total;
+- forma de pagamento;
+- status;
+- observações;
+- caixa vinculado.
+
+Status possíveis:
+
+- concluída;
+- cancelada;
+- estornada;
+- pendente, se futuramente houver delivery.
+
+Cancelamento:
+
+- apenas administrador ou gerente pode cancelar;
+- pedir motivo;
+- devolver estoque automaticamente;
+- registrar log.
+
+11. RELATÓRIOS
+
+Criar relatórios simples no MVP:
+
+- vendas por período;
+- vendas por usuário;
+- produtos mais vendidos;
+- produtos menos vendidos;
+- estoque baixo;
+- margem por produto;
+- faturamento por forma de pagamento;
+- vendas por categoria;
+- produtos compostos mais vendidos.
+
+Permitir filtros por:
+
+- hoje;
+- ontem;
+- últimos 7 dias;
+- mês atual;
+- período personalizado.
+
+12. BANCO DE DADOS
+
+Criar modelagem de banco de dados PostgreSQL para Neon.
+
+Tabelas sugeridas:
+
+users
+- id
+- name
+- email
+- password_hash
+- role
+- active
+- created_at
+- updated_at
+
+stores
+- id
+- name
+- document
+- phone
+- address
+- active
+- created_at
+- updated_at
+
+categories
+- id
+- store_id
+- name
+- description
+- active
+- created_at
+- updated_at
+
+products
+- id
+- store_id
+- category_id
+- name
+- barcode
+- product_type
+- cost_price
+- sale_price
+- margin_percentage
+- stock_quantity
+- min_stock
+- unit_type
+- image_url
+- description
+- preparation_instructions
+- preparation_time_minutes
+- internal_notes
+- active
+- created_at
+- updated_at
+
+product_barcodes
+- id
+- product_id
+- barcode
+- created_at
+
+composite_product_items
+- id
+- composite_product_id
+- ingredient_product_id
+- quantity_used
+- unit_type
+- notes
+- created_at
+- updated_at
+
+sales
+- id
+- store_id
+- user_id
+- cash_session_id
+- subtotal
+- discount
+- total
+- status
+- cancellation_reason
+- created_at
+- updated_at
+
+sale_items
+- id
+- sale_id
+- product_id
+- product_name_snapshot
+- quantity
+- unit_price
+- total
+- created_at
+
+payments
+- id
+- sale_id
+- method
+- amount
+- status
+- created_at
+
+cash_sessions
+- id
+- store_id
+- user_id
+- opening_amount
+- expected_amount
+- closing_amount
+- status
+- opened_at
+- closed_at
+
+cash_movements
+- id
+- cash_session_id
+- user_id
+- type
+- amount
+- reason
+- created_at
+
+stock_movements
+- id
+- store_id
+- product_id
+- user_id
+- sale_id
+- type
+- quantity
+- previous_quantity
+- new_quantity
+- reason
+- created_at
+
+audit_logs
+- id
+- store_id
+- user_id
+- action
+- entity
+- entity_id
+- old_value
+- new_value
+- created_at
+
+settings
+- id
+- store_id
+- key
+- value
+- created_at
+- updated_at
+
+IMPORTANTE SOBRE PRODUTOS COMPOSTOS
+
+product_type deve aceitar:
+
+- simple
+- composite
+
+Se product_type = composite, o produto não precisa necessariamente ter estoque próprio. Ele pode ser montado a partir dos ingredientes. Porém o sistema deve permitir configurar isso.
+
+Para produto composto, usar composite_product_items para relacionar os ingredientes.
+
+Exemplo:
+
+products:
+- id 10: Copão Gin Morango
+- product_type: composite
+
+composite_product_items:
+- composite_product_id: 10
+- ingredient_product_id: 2 Gin
+- quantity_used: 150
+- unit_type: ml
+
+- composite_product_id: 10
+- ingredient_product_id: 5 Energético
+- quantity_used: 1
+- unit_type: unidade
+
+- composite_product_id: 10
+- ingredient_product_id: 8 Gelo
+- quantity_used: 1
+- unit_type: unidade
+
+13. REGRAS DE BAIXA DE ESTOQUE
+
+Produto simples:
+
+Ao vender produto simples, baixar o estoque do próprio produto.
+
+Produto composto:
+
+Ao vender produto composto, buscar todos os itens da ficha técnica em composite_product_items e baixar o estoque de cada ingrediente conforme quantity_used multiplicado pela quantidade vendida.
+
+Se vender 2 copões, baixar o dobro dos ingredientes.
+
+Se estoque insuficiente:
+
+- mostrar alerta;
+- no MVP, permitir configurar se bloqueia venda ou permite vender com estoque negativo;
+- por padrão, alertar e permitir apenas para administrador/gerente;
+- atendente deve ser bloqueado ou receber aviso para chamar gerente.
+
+14. INTERFACE E EXPERIÊNCIA DO USUÁRIO
+
+O sistema deve ter aparência moderna, limpa e profissional.
+
+Usar:
+
+- layout responsivo;
+- cards;
+- botões grandes para operação de caixa;
+- menu lateral no desktop;
+- menu inferior ou hamburguer no mobile;
+- ícones;
+- cores modernas;
+- feedback visual;
+- loaders;
+- mensagens claras de erro e sucesso;
+- modais bem desenhados.
+
+A experiência do caixa precisa ser extremamente rápida.
+
+Fluxo ideal da venda:
+
+1. Abrir caixa.
+2. Escanear produto.
+3. Produto entra no carrinho.
+4. Repetir para outros produtos.
+5. Escolher pagamento.
+6. Finalizar venda.
+7. Sistema baixa estoque e limpa carrinho.
+
+15. DADOS DE DEMONSTRAÇÃO
+
+Criar seed inicial com dados fictícios para apresentação.
+
+Usuários:
+
+Admin:
+- email: admin@adega.com
+- senha: 123456
+- role: admin
+
+Gerente:
+- email: gerente@adega.com
+- senha: 123456
+- role: manager
+
+Caixa:
+- email: caixa@adega.com
+- senha: 123456
+- role: cashier
+
+Categorias:
+
+- Gin
+- Whisky
+- Vodka
+- Chanceler
+- Energéticos
+- Refrigerantes
+- Gelo
+- Copões
+- Combos
+- Condimentos
+- Cervejas
+
+Produtos simples de exemplo:
+
+- Gin Rocks 1L
+- Chanceler 1L
+- Red Bull 250ml
+- Monster 473ml
+- Gelo 3kg
+- Coca-Cola 2L
+- Copo 700ml
+- Xarope Morango
+- Xarope Açaí
+- Cerveja Heineken Long Neck
+- Cerveja Brahma Lata
+- Vodka Smirnoff
+- Whisky Passport
+
+Produtos compostos de exemplo:
+
+1. Copão Gin Morango 700ml
+
+Ingredientes:
+- Gin Rocks: 150 ml
+- Red Bull: 1 unidade
+- Gelo: 1 unidade
+- Copo 700ml: 1 unidade
+- Xarope Morango: 30 ml
+
+Modo de preparo:
+- Adicionar gelo no copo.
+- Colocar 150 ml de gin.
+- Adicionar xarope de morango.
+- Completar com Red Bull.
+- Misturar levemente.
+- Entregar ao cliente.
+
+2. Copão Chanceler Energético
+
+Ingredientes:
+- Chanceler: 150 ml
+- Monster: 1 unidade
+- Gelo: 1 unidade
+- Copo 700ml: 1 unidade
+
+Modo de preparo:
+- Adicionar gelo.
+- Colocar Chanceler.
+- Completar com energético.
+- Misturar levemente.
+
+3. Combo Chanceler + Energético + Gelo
+
+Ingredientes:
+- Chanceler: 1 unidade
+- Monster: 2 unidades
+- Gelo 3kg: 1 unidade
+
+Modo de preparo:
+- Separar os itens do combo.
+- Conferir se todos os produtos estão gelados.
+- Entregar embalado.
+
+16. ROTAS / TELAS NECESSÁRIAS
+
+Criar as seguintes telas:
+
+- /login
+- /dashboard
+- /pos
+- /products
+- /products/new
+- /products/:id/edit
+- /composite-products
+- /stock
+- /sales
+- /cash
+- /reports
+- /users
+- /settings
+
+A navegação deve respeitar permissões.
+
+Se o usuário sem permissão tentar acessar uma tela, redirecionar ou mostrar “Acesso negado”.
+
+17. API / BACKEND
+
+Criar endpoints ou server actions para:
+
+Auth:
+- login
+- logout
+- get current user
+
+Products:
+- list products
+- get product
+- create product
+- update product
+- inactivate product
+- search by name
+- search by barcode
+
+Composite Products:
+- create composite product
+- update composite product
+- list ingredients
+- calculate cost
+- calculate margin
+- get preparation instructions
+
+Sales:
+- create sale
+- cancel sale
+- list sales
+- get sale detail
+
+Stock:
+- list stock
+- create stock movement
+- adjust stock
+- get low stock
+- get product movement history
+
+Cash:
+- open cash session
+- close cash session
+- create cash movement
+- get current cash session
+
+Dashboard:
+- get daily summary
+- get sales by hour
+- get top products
+- get payment methods summary
+- get low stock summary
+
+Users:
+- create user
+- update user
+- list users
+- disable user
+
+18. SEGURANÇA
+
+Implementar:
+
+- senha com hash;
+- validação de entrada;
+- proteção de rotas;
+- controle de permissões;
+- não expor dados sensíveis no front-end;
+- impedir que atendente veja preço de custo ou lucro;
+- logs de ações importantes;
+- tratamento de erros.
+
+19. VALIDAÇÕES IMPORTANTES
+
+Produto:
+
+- nome obrigatório;
+- preço de venda obrigatório;
+- categoria obrigatória;
+- se tiver código de barras, ele deve ser único por loja;
+- estoque não pode ser vazio;
+- tipo do produto deve ser simple ou composite.
+
+Produto composto:
+
+- precisa ter ao menos um ingrediente;
+- precisa ter modo de preparo ou observação;
+- precisa calcular custo baseado nos ingredientes;
+- precisa permitir editar receita depois.
+
+Venda:
+
+- não permitir finalizar venda vazia;
+- total precisa ser maior que zero;
+- forma de pagamento obrigatória;
+- caixa precisa estar aberto, se controle de caixa estiver ativo.
+
+Estoque:
+
+- registrar sempre histórico de movimentação;
+- nunca alterar estoque sem gerar stock_movement.
+
+20. DESIGN DO SISTEMA
+
+Criar uma identidade visual moderna para adega.
+
+Sugestão de estilo:
+
+- fundo escuro ou claro moderno;
+- cards com bordas arredondadas;
+- destaque para verde/roxo/âmbar ou cores relacionadas à noite/bebidas;
+- botões grandes no PDV;
+- dashboard visual;
+- layout limpo;
+- não deixar com aparência genérica de sistema antigo.
+
+O sistema precisa parecer algo vendável para cliente real.
+
+21. PRIORIDADE DE DESENVOLVIMENTO
+
+Desenvolver primeiro nesta ordem:
+
+1. Estrutura do projeto.
+2. Configuração do banco Neon.
+3. Modelagem do banco.
+4. Autenticação.
+5. Permissões por perfil.
+6. Seed de dados.
+7. Tela de dashboard.
+8. Tela de produtos.
+9. Tela de produtos compostos.
+10. Tela de estoque.
+11. Tela de PDV.
+12. Scanner por câmera.
+13. Finalização de venda.
+14. Baixa automática de estoque.
+15. Relatórios básicos.
+16. Ajustes visuais e responsividade.
+
+22. CRITÉRIOS DE ACEITE
+
+O sistema só será considerado pronto se:
+
+- login funcionar;
+- cada perfil acessar apenas o que pode;
+- admin conseguir cadastrar produto simples;
+- admin conseguir cadastrar produto composto;
+- produto composto permitir ingredientes e modo de preparo;
+- atendente conseguir ver ficha técnica do produto composto;
+- PDV conseguir adicionar produtos ao carrinho;
+- scanner por câmera funcionar ou ter fallback manual;
+- venda finalizar corretamente;
+- estoque baixar automaticamente;
+- produto composto baixar ingredientes;
+- dashboard atualizar os dados;
+- estoque baixo aparecer no painel;
+- sistema estiver responsivo no celular;
+- deploy estiver pronto para Netlify;
+- conexão com Neon estiver funcionando;
+- código estiver organizado;
+- README explicar como rodar o projeto.
+
+23. README
+
+Criar README completo com:
+
+- nome do projeto;
+- descrição;
+- tecnologias usadas;
+- como configurar o .env;
+- como conectar ao Neon;
+- como rodar migrations;
+- como rodar seed;
+- como iniciar localmente;
+- usuários de teste;
+- como fazer deploy na Netlify;
+- observações sobre scanner por câmera;
+- próximos passos futuros.
+
+24. VARIÁVEIS DE AMBIENTE
+
+Criar exemplo de .env:
+
+DATABASE_URL=
+JWT_SECRET=
+NEXT_PUBLIC_APP_NAME=Adega Smart POS
+CLOUDINARY_CLOUD_NAME=
+CLOUDINARY_API_KEY=
+CLOUDINARY_API_SECRET=
+
+Se não usar Next.js, adaptar as variáveis ao padrão do framework escolhido.
+
+25. FUTURAS EXPANSÕES, MAS NÃO IMPLEMENTAR AGORA
+
+Deixar estrutura preparada, mas não precisa desenvolver neste MVP:
+
+- site de vendas próprio da adega;
+- cardápio digital;
+- integração com WhatsApp;
+- delivery;
+- rastreio de entrega;
+- integração com iFood/Zé Delivery;
+- emissão de NFC-e;
+- integração fiscal;
+- múltiplas lojas;
+- programa de fidelidade;
+- cupons;
+- clientes;
+- fornecedores;
+- app PWA completo;
+- integração com impressora térmica;
+- integração com maquininha.
+
+Mas tomar cuidado para a arquitetura não impedir essas expansões.
+
+26. OBSERVAÇÃO IMPORTANTE SOBRE FISCAL
+
+Neste MVP, o sistema será de controle interno, PDV gerencial e demonstração. Não implementar emissão fiscal agora. Apenas deixar preparado para integração futura com NFC-e/API fiscal.
+
+27. RESULTADO ESPERADO
+
+Entregar um sistema web completo, funcional e bonito, pronto para demonstração, com:
+
+- painel administrativo;
+- PDV;
+- leitura de código de barras pela câmera;
+- cadastro de produtos;
+- cadastro de produtos compostos;
+- ficha técnica com modo de preparo;
+- estoque inteligente;
+- dashboard em tempo real ou quase real;
+- relatórios básicos;
+- permissões por perfil;
+- banco Neon;
+- pronto para deploy na Netlify.
+
+Não entregar apenas protótipo visual. Preciso de funcionalidades reais conectadas ao banco.
+
+Crie o projeto com código limpo, componentes reutilizáveis, boa organização de pastas, tratamento de erros, responsividade e experiência profissional.
