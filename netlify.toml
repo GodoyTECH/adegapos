@@ -1,0 +1,8 @@
+[build]
+  command = "pnpm --filter @workspace/adega-pos... run build"
+  publish = "artifacts/adega-pos/dist/public"
+
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
